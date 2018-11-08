@@ -11,6 +11,11 @@
 					"signature"		"soundemitterbase"
 					"read"			"0"
 				}
+				"windows"
+				{
+					"signature"		"CSoundEmitterSystem::LevelInitPreEntity()"
+					"read"			"170" // 0xAA
+				}
 			}
 		}
 		
@@ -36,18 +41,24 @@
 		{
 			"CSoundscapeSystem::Init()"
 			{
+				// contains x-ref string "scripts/soundscapes_%s.txt"
 				"library"		"server"
 				"linux"			"@_ZN17CSoundscapeSystem4InitEv"
+				"windows"		"\x55\x8B\xEC\x83\xEC\x08\x53\x56\x8B\xF1\xBA\x2A\x2A\x2A\x2A"
 			}
 			"CSoundscapeSystem::AddSoundscapeFile()"
 			{
+				// contains x-ref string "Error parsing soundscape file %s after %s"
 				"library"		"server"
 				"linux"			"@_ZN17CSoundscapeSystem17AddSoundscapeFileEPKc"
+				"windows"		"\x55\x8B\xEC\x53\x56\x57\x6A\x20\x8B\xF9"
 			}
 			"CSoundEmitterSystem::LevelInitPreEntity()"
 			{
+				// contains x-ref string "scripts/mvm_level_sound_tweaks.txt"
 				"library"		"server"
 				"linux"			"@_ZN19CSoundEmitterSystem18LevelInitPreEntityEv"
+				"windows"		"\x55\x8B\xEC\x81\xEC\x00\x03\x00\x00"
 			}
 			
 			"soundemitterbase"
@@ -61,7 +72,9 @@
 		{
 			"ISoundEmitterSystemBase::AddSoundOverride()"
 			{
+				// called in CSoundEmitterSystem::LevelInitPreEntity()
 				"linux"			"39"
+				"windows"		"39"
 			}
 		}
 	}
