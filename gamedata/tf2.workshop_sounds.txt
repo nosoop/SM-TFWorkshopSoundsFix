@@ -1,0 +1,68 @@
+"Games"
+{
+	"tf"
+	{
+		"Addresses"
+		{
+			"soundemitterbase"
+			{
+				"linux"
+				{
+					"signature"		"soundemitterbase"
+					"read"			"0"
+				}
+			}
+		}
+		
+		"Functions"
+		{
+			"CSoundscapeSystem::Init()"
+			{
+				"signature"		"CSoundscapeSystem::Init()"
+				"callconv"		"thiscall"
+				"return"		"bool"
+				"this"			"address"
+			}
+			"CSoundEmitterSystem::LevelInitPreEntity()"
+			{
+				"signature"		"CSoundEmitterSystem::LevelInitPreEntity()"
+				"callconv"		"thiscall"
+				"return"		"void"
+				"this"			"address"
+			}
+		}
+		
+		"Signatures"
+		{
+			"CSoundscapeSystem::Init()"
+			{
+				"library"		"server"
+				"linux"			"@_ZN17CSoundscapeSystem4InitEv"
+			}
+			"CSoundscapeSystem::AddSoundscapeFile()"
+			{
+				"library"		"server"
+				"linux"			"@_ZN17CSoundscapeSystem17AddSoundscapeFileEPKc"
+			}
+			"CSoundEmitterSystem::LevelInitPreEntity()"
+			{
+				"library"		"server"
+				"linux"			"@_ZN19CSoundEmitterSystem18LevelInitPreEntityEv"
+			}
+			
+			"soundemitterbase"
+			{
+				"library"		"server"
+				"linux"			"@soundemitterbase"
+			}
+		}
+		
+		"Offsets"
+		{
+			"ISoundEmitterSystemBase::AddSoundOverride()"
+			{
+				"linux"			"39"
+			}
+		}
+	}
+}
