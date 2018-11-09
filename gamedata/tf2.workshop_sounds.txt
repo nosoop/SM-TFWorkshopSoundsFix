@@ -9,13 +9,13 @@
 				"linux"
 				{
 					"signature"		"soundemitterbase"
-					"read"			"0"
 				}
 				"windows"
 				{
 					"signature"		"CSoundEmitterSystem::LevelInitPreEntity()"
 					"read"			"170" // 0xAA
 				}
+				"read"			"0"
 			}
 		}
 		
