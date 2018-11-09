@@ -20,7 +20,7 @@
 
 #pragma newdecls required
 
-#define PLUGIN_VERSION "1.0.1"
+#define PLUGIN_VERSION "1.0.2"
 public Plugin myinfo = {
 	name = "[TF2] Workshop Map Sounds Fix",
 	author = "nosoop",
@@ -41,7 +41,6 @@ public void OnPluginStart() {
 	}
 	
 	g_pSoundEmitterBase = GameConfGetAddress(hGameConf, "soundemitterbase");
-	g_pSoundscapeSystem = GameConfGetAddress(hGameConf, "g_SoundscapeSystem");
 	
 	/* SDKCall to add soundscapes */
 	StartPrepSDKCall(SDKCall_Raw);
@@ -67,6 +66,7 @@ public void OnPluginStart() {
 	if (!hookSoundscapeInit) {
 		SetFailState("Could not init detour on CSoundscapeSystem::Init()");
 	}
+	DHookEnableDetour(hookSoundscapeInit, false, OnSoundscapeInitPre);
 	DHookEnableDetour(hookSoundscapeInit, true, OnSoundscapeInitPost);
 	
 	/* hook sound overrides handler */
@@ -100,6 +100,15 @@ public MRESReturn SpewSoundOverrideHook(Address pSoundEmitter, Handle hParams) {
 		DHookGetParamString(hParams, 1, buffer, sizeof(buffer));
 		LogServer("Debug:  Adding override file %s", buffer);
 	}
+	return MRES_Ignored;
+}
+
+/**
+ * Pre-hook to work around a dynhooks bug -- `ecx` register (thisptr) gets overwritten later on
+ * down the function and dynhooks feeds that back to the plugin instead.
+ */
+public MRESReturn OnSoundscapeInitPre(Address pSoundscapeSystem, Handle hReturn) {
+	g_pSoundscapeSystem = pSoundscapeSystem;
 	return MRES_Ignored;
 }
 

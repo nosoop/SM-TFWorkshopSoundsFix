@@ -17,16 +17,6 @@
 				}
 				"read"			"0"
 			}
-			
-			// kludge: dhooks thisptr on windows is borked
-			"g_SoundscapeSystem"
-			{
-				"windows"
-				{
-					"signature"		"CEnvSoundscape::Precache()"
-					"read"			"49" // 0x31
-				}
-			}
 		}
 		
 		"Functions"
@@ -75,14 +65,6 @@
 			{
 				"library"		"server"
 				"linux"			"@soundemitterbase"
-			}
-			
-			// sig only used for dhooks kludge
-			"CEnvSoundscape::Precache()"
-			{
-				// contains x-ref string "Found soundscape entity with no soundscape name."
-				"library"		"server"
-				"windows"		"\x56\x8B\xF1\x83\xBE\x2A\x2A\x00\x00\x00\x75\x10\x68\x2A\x2A\x2A\x2A\xFF"
 			}
 		}
 		
