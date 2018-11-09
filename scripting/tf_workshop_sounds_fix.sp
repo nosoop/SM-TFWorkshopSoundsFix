@@ -20,7 +20,7 @@
 
 #pragma newdecls required
 
-#define PLUGIN_VERSION "1.0.0"
+#define PLUGIN_VERSION "1.0.1"
 public Plugin myinfo = {
 	name = "[TF2] Workshop Map Sounds Fix",
 	author = "nosoop",
@@ -29,7 +29,7 @@ public Plugin myinfo = {
 	url = "localhost"
 }
 
-Address g_pSoundEmitterBase;
+Address g_pSoundEmitterBase, g_pSoundscapeSystem;
 Handle g_SDKCallAddSoundscapeFile, g_SDKCallAddSoundOverrides;
 
 ConVar g_SpewSoundOverrideLoadInfo;
@@ -41,6 +41,7 @@ public void OnPluginStart() {
 	}
 	
 	g_pSoundEmitterBase = GameConfGetAddress(hGameConf, "soundemitterbase");
+	g_pSoundscapeSystem = GameConfGetAddress(hGameConf, "g_SoundscapeSystem");
 	
 	/* SDKCall to add soundscapes */
 	StartPrepSDKCall(SDKCall_Raw);
@@ -116,6 +117,11 @@ public MRESReturn OnSoundscapeInitPost(Address pSoundscapeSystem, Handle hReturn
 				mapName);
 		
 		if (FileExists(mapSoundscapePath, true)) {
+			// dhooks kludge: pSoundscapeSystem doesn't actually return the thisptr
+			// so we're pulling that info through the global
+			if (g_pSoundscapeSystem) {
+				pSoundscapeSystem = g_pSoundscapeSystem;
+			}
 			SDKCall(g_SDKCallAddSoundscapeFile, pSoundscapeSystem, mapSoundscapePath);
 			LogServer("Loaded Workshop-embedded soundscape file %s", mapSoundscapePath);
 		}
