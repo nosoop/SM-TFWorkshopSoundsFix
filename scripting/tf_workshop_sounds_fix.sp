@@ -20,7 +20,7 @@
 
 #pragma newdecls required
 
-#define PLUGIN_VERSION "1.0.2"
+#define PLUGIN_VERSION "1.0.3"
 public Plugin myinfo = {
 	name = "[TF2] Workshop Map Sounds Fix",
 	author = "nosoop",
@@ -29,7 +29,7 @@ public Plugin myinfo = {
 	url = "localhost"
 }
 
-Address g_pSoundEmitterBase, g_pSoundscapeSystem;
+Address g_pSoundEmitterBase;
 Handle g_SDKCallAddSoundscapeFile, g_SDKCallAddSoundOverrides;
 
 ConVar g_SpewSoundOverrideLoadInfo;
@@ -105,10 +105,10 @@ public MRESReturn SpewSoundOverrideHook(Address pSoundEmitter, Handle hParams) {
 
 /**
  * Pre-hook to work around a dynhooks bug -- `ecx` register (thisptr) gets overwritten later on
- * down the function and dynhooks feeds that back to the plugin instead.
+ * down the function and dynhooks feeds that back to the plugin instead.  A pre-hook performs
+ * some additional bookkeeping so the correct values are present in the post hook.
  */
 public MRESReturn OnSoundscapeInitPre(Address pSoundscapeSystem, Handle hReturn) {
-	g_pSoundscapeSystem = pSoundscapeSystem;
 	return MRES_Ignored;
 }
 
@@ -126,11 +126,6 @@ public MRESReturn OnSoundscapeInitPost(Address pSoundscapeSystem, Handle hReturn
 				mapName);
 		
 		if (FileExists(mapSoundscapePath, true)) {
-			// dhooks kludge: pSoundscapeSystem doesn't actually return the thisptr
-			// so we're pulling that info through the global
-			if (g_pSoundscapeSystem) {
-				pSoundscapeSystem = g_pSoundscapeSystem;
-			}
 			SDKCall(g_SDKCallAddSoundscapeFile, pSoundscapeSystem, mapSoundscapePath);
 			LogServer("Loaded Workshop-embedded soundscape file %s", mapSoundscapePath);
 		}

@@ -1,3 +1,6 @@
+> ℹ This was fixed upstream in TF2 version 7580501, released on 2022-10-13.  This plugin is no
+> longer required.
+
 # TF2 Workshop Map Sounds Fix
 
 A plugin that loads Workshop map soundscapes and overrides by display name.
